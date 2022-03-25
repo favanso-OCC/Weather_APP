@@ -117,10 +117,10 @@ class SecondFragment : Fragment() {
         viewModel.getMaxTemp().observe(viewLifecycleOwner, maxTempObserver)
 
 
-        val iconText = viewModel.getIconWeather()
-        val icon = "http://openweathermap.org/img/wn/$iconText.png"
-        val imageview = view?.findViewById<ImageView>(R.id.iconView)
-        Picasso.with(context).load(icon).resize(300, 0).into(imageview)
+        val iconObserver = Observer<String>{iconWeather->
+            Picasso.with(context).load(iconWeather).resize(300, 300).into(iconView)
+        }
+        viewModel.getIconWeather().observe(viewLifecycleOwner,iconObserver)
 
 
         val mainDescriptionObserver = Observer<String>
