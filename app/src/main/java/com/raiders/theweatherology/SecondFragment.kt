@@ -14,12 +14,9 @@ import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_second.*
 
-
-
 class SecondFragment : Fragment() {
 
     private lateinit var viewModel: SecondViewModel
-    //private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +39,6 @@ class SecondFragment : Fragment() {
         val tempObserver1MinTemp =
             Observer<Double> { temp1 -> tempMin1.text = ("%.0f" + "\u00B0").format(temp1) }
         viewModel.getMinTemp1().observe(viewLifecycleOwner, tempObserver1MinTemp)
-
         val tempObserver1MaxTemp =
             Observer<Double> { temp1Max -> tempMax1.text = ("%.0f" + "\u00B0").format(temp1Max) }
         viewModel.getMaxTemp1().observe(viewLifecycleOwner, tempObserver1MaxTemp)
@@ -75,10 +71,6 @@ class SecondFragment : Fragment() {
             Observer<Double> { temp5Max -> tempMax5.text = ("%.0f" + "\u00B0").format(temp5Max) }
         viewModel.getMaxTemp5().observe(viewLifecycleOwner, tempObserver5MaxTemp)
 
-
-//        val dateObserver = Observer<String> { date -> textDate.text = date.toString() }
-//        viewModel.getDate().observe(viewLifecycleOwner, dateObserver)
-
         val dateObserver1 = Observer<String> { date1 -> dayOne.text = date1.toString() }
         viewModel.getDate1().observe(viewLifecycleOwner, dateObserver1)
 
@@ -94,7 +86,7 @@ class SecondFragment : Fragment() {
         val dateObserver5 = Observer<String> { date5 -> dayFive.text = date5.toString() }
         viewModel.getDate5().observe(viewLifecycleOwner, dateObserver5)
 
-//One Day Forecast Observers
+        //One Day Forecast Observers
         //Metric: meter/sec, Imperial: miles/hour.
         val windObserver =
             Observer<Double> { wind -> TextWind.text = ("%.2f" + " m/s").format(wind) }
@@ -116,52 +108,71 @@ class SecondFragment : Fragment() {
         { maxTemp -> maxTem.text = ("%.0f" + "\u00B0").format(maxTemp) }
         viewModel.getMaxTemp().observe(viewLifecycleOwner, maxTempObserver)
 
-
         val iconObserver = Observer<String>{iconWeather->
             Picasso.with(context).load(iconWeather).resize(300, 300).into(iconView)
         }
         viewModel.getIconWeather().observe(viewLifecycleOwner,iconObserver)
 
-
         val mainDescriptionObserver = Observer<String>
         { mainDescription -> textMainDecription.text = mainDescription.toString() }
         viewModel.getMainDescription().observe(viewLifecycleOwner, mainDescriptionObserver)
 
-
         //Text City
-        textCity.text = arguments?.getString("message")
+        if(requireArguments().getString("cityName") == ""){
+            textCity.text = "Your City"
+        }else{
+        textCity.text = arguments?.getString("cityName")}
+
+        //Function getting info from first fragment and using Fun from Second Fragment
         val queue = Volley.newRequestQueue(context)
-        arguments?.getString("message")?.let {
+        arguments?.getString("cityName")?.let {
             viewModel.oneDayForecast("metric", it, queue)
         }
 
         val queue2 = Volley.newRequestQueue(context)
-        arguments?.getString("message")?.let {
-
+        arguments?.getString("cityName")?.let {
             viewModel.fiveDayForecast("metric", it, queue2)
-
         }
+
+        //Lat and Long City
+        val queue3 = Volley.newRequestQueue(context)
+        val lat = arguments?.getString("lat")
+        val long = arguments?.getString("long")
+        let {
+            if (long != null && lat!= null) {
+                viewModel.oneDayForecastForLocation("metric", long, lat, queue3)
+            }
+        }
+
+        val queue4 = Volley.newRequestQueue(context)
+        let {
+            if (long != null && lat!= null) {
+                viewModel.oneDayForecastForLocation("metric", long, lat, queue4)
+            }
+        }
+
         //Unit Switch
         view?.findViewById<Switch>(R.id.unitMeasureSwitch)
             ?.setOnCheckedChangeListener { _, isChecked ->
+                //ANOTHER IF TO CHECK IF IT HAS CITY OR LAT AND LONG
                 if (isChecked) {
                     val queue = Volley.newRequestQueue(context)
-                    arguments?.getString("message")?.let {
+                    arguments?.getString("cityName")?.let {
                         viewModel.oneDayForecast("imperial", it, queue)
                     }
                     val queue2 = Volley.newRequestQueue(context)
-                    arguments?.getString("message")?.let {
+                    arguments?.getString("cityName")?.let {
 
                         viewModel.fiveDayForecast("imperial", it, queue2)
 
                     }
                 } else {
                     val queue = Volley.newRequestQueue(context)
-                    arguments?.getString("message")?.let {
+                    arguments?.getString("cityName")?.let {
                         viewModel.oneDayForecast("metric", it, queue)
                     }
                     val queue2 = Volley.newRequestQueue(context)
-                    arguments?.getString("message")?.let {
+                    arguments?.getString("cityName")?.let {
 
                         viewModel.fiveDayForecast("metric", it, queue2)
 

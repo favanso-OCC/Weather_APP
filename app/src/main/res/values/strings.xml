@@ -25,6 +25,7 @@
     <string name="MinTemp">Min Temperature</string>
     <string name="MaxTemp">Max Temperature</string>
     <string name="WindSpeed">Wind Speed</string>
+    <string name="WindUnit">Wind Unit</string>
     <string name="_5dayweather">5DayWeather</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="maxtemp">maxTemp</string>
