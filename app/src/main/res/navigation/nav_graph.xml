@@ -14,6 +14,14 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <argument
+            android:name="Long"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="Lat"
+            app:argType="string"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"

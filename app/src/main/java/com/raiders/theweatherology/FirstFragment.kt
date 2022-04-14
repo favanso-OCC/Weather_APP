@@ -29,8 +29,8 @@ import kotlinx.android.synthetic.main.fragment_first.*
 class FirstFragment : Fragment() {
 
     private lateinit var mfusedLocation: FusedLocationProviderClient
-    private lateinit var lat: String
-    private lateinit var long: String
+    private var lat: String = ""
+    private var long: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +51,12 @@ class FirstFragment : Fragment() {
 
         //Button2
         view.findViewById<Button>(R.id.button2).setOnClickListener {
-            mfusedLocation= LocationServices.getFusedLocationProviderClient(this.requireContext())
+            mfusedLocation = LocationServices.getFusedLocationProviderClient(this.requireContext())
             getCurrentLocation()
+
             Navigation.findNavController(it).navigate(
-                R.id.action_FirstFragment_to_SecondFragment)
+                R.id.action_FirstFragment_to_SecondFragment, bundleOf("lat" to lat, "long" to long)
+            )
         }//END On Click Button2
 
     }//END On VIEW CREATED
@@ -71,7 +73,6 @@ class FirstFragment : Fragment() {
                     } else {
                         lat = location.latitude.toString()
                         long = location.longitude.toString()
-                        bundleOf("lat" to lat, "long" to long)
                     }
                 }
 

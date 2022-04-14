@@ -11,7 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SecondViewModel : ViewModel() {
-    private val API: String =  "574767b600e526d124c0cdaa69212b76"
+    private val API: String = "574767b600e526d124c0cdaa69212b76"
+
     //private val APIclose:String = BuildConfig.KEY
     //Variables for Day Forecast
     private var temp: MutableLiveData<Double> = MutableLiveData()
@@ -23,7 +24,6 @@ class SecondViewModel : ViewModel() {
     private var maxTemp: MutableLiveData<Double> = MutableLiveData()
     private var mainDescription: MutableLiveData<String> = MutableLiveData()
     private var iconWeather: MutableLiveData<String> = MutableLiveData()
-    private var iconWeatherApi : MutableLiveData<String> = MutableLiveData()
 
     //Variables for 5-Day Forecast
     private var temp1: MutableLiveData<Double> = MutableLiveData()
@@ -52,63 +52,43 @@ class SecondViewModel : ViewModel() {
         return temp
     }
 
-    fun getTemp1(): MutableLiveData<Double> {
-        return temp1
-    }
-
-    fun getTemp2(): MutableLiveData<Double> {
-        return temp2
-    }
-
-    fun getTemp3(): MutableLiveData<Double> {
-        return temp3
-    }
-
-    fun getTemp4(): MutableLiveData<Double> {
-        return temp4
-    }
-
-    fun getTemp5(): MutableLiveData<Double> {
-        return temp5
-    }
-
-    fun getMinTemp1(): MutableLiveData<Double>{
+    fun getMinTemp1(): MutableLiveData<Double> {
         return minTemp1
     }
 
-    fun getMinTemp2(): MutableLiveData<Double>{
+    fun getMinTemp2(): MutableLiveData<Double> {
         return minTemp2
     }
 
-    fun getMinTemp3(): MutableLiveData<Double>{
+    fun getMinTemp3(): MutableLiveData<Double> {
         return minTemp3
     }
 
-    fun getMinTemp4(): MutableLiveData<Double>{
+    fun getMinTemp4(): MutableLiveData<Double> {
         return minTemp4
     }
 
-    fun getMinTemp5(): MutableLiveData<Double>{
+    fun getMinTemp5(): MutableLiveData<Double> {
         return minTemp5
     }
 
-    fun getMaxTemp1(): MutableLiveData<Double>{
+    fun getMaxTemp1(): MutableLiveData<Double> {
         return maxTemp1
     }
 
-    fun getMaxTemp2(): MutableLiveData<Double>{
+    fun getMaxTemp2(): MutableLiveData<Double> {
         return maxTemp2
     }
 
-    fun getMaxTemp3(): MutableLiveData<Double>{
+    fun getMaxTemp3(): MutableLiveData<Double> {
         return maxTemp3
     }
 
-    fun getMaxTemp4(): MutableLiveData<Double>{
+    fun getMaxTemp4(): MutableLiveData<Double> {
         return maxTemp4
     }
 
-    fun getMaxTemp5(): MutableLiveData<Double>{
+    fun getMaxTemp5(): MutableLiveData<Double> {
         return maxTemp5
     }
 
@@ -163,9 +143,11 @@ class SecondViewModel : ViewModel() {
     fun getIconWeather(): MutableLiveData<String> {
         return iconWeather
     }
-//
+
+    //
     fun oneDayForecastForLocation(unit: String, lon: String, lat: String, queue: RequestQueue) {
-        val urlOneDayForecastForLocation = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$API&units=$unit"
+        val urlOneDayForecastForLocation =
+            "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$API&units=$unit"
 
         val responseOneDayForecast =
             StringRequest(Request.Method.GET, urlOneDayForecastForLocation, { response ->
@@ -177,7 +159,8 @@ class SecondViewModel : ViewModel() {
                 val description = weather.getJSONObject(0)
 
                 date.value = SimpleDateFormat("EEE,MMMM dd hh:mm a", Locale.ENGLISH).format(
-                    Date(today * 1000))
+                    Date(today * 1000)
+                )
                 temp.value = main.getDouble("temp")
                 wind.value = windSpeed.getDouble("speed")
                 humidity.value = main.getInt("humidity")
@@ -195,7 +178,8 @@ class SecondViewModel : ViewModel() {
 
     //TO INCLUDE ON PARAMETERS THE SWITCH WITH CHOSEN METRIC
     fun oneDayForecast(unit: String, city: String, queue: RequestQueue) {
-        val urlOneDayForecast = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API"
+        val urlOneDayForecast =
+            "https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API"
         val responseOneDayForecast =
             StringRequest(Request.Method.GET, urlOneDayForecast, { response ->
                 val obj = JSONObject(response)
@@ -206,7 +190,8 @@ class SecondViewModel : ViewModel() {
                 val description = weather.getJSONObject(0)
 
                 date.value = SimpleDateFormat("EEE,MMMM dd hh:mm a", Locale.ENGLISH).format(
-                    Date(today * 1000))
+                    Date(today * 1000)
+                )
                 temp.value = main.getDouble("temp")
                 wind.value = windSpeed.getDouble("speed")
                 humidity.value = main.getInt("humidity")
@@ -225,7 +210,7 @@ class SecondViewModel : ViewModel() {
 
 
     //fivedaywithLocation
-    fun fiveDayForecastForLocation(unit: String, lon:String, lat: String,  queue: RequestQueue) {
+    fun fiveDayForecastForLocation(unit: String, lon: String, lat: String, queue: RequestQueue) {
         val urlFiveDayForecast =
             "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=$API&units=$unit"
 
@@ -236,7 +221,7 @@ class SecondViewModel : ViewModel() {
                 val dayOne = obj.getJSONArray("list").getJSONObject(0)
                 val main0 = dayOne.getJSONObject("main")
                 temp1.value = main0.getDouble("temp")
-                minTemp1.value= main0.getDouble("temp_min")
+                minTemp1.value = main0.getDouble("temp_min")
                 maxTemp1.value = main0.getDouble("temp_max")
                 val toDate0 = dayOne.getLong("dt")
                 date1.value = SimpleDateFormat(
@@ -247,7 +232,7 @@ class SecondViewModel : ViewModel() {
                 val dayTwo = obj.getJSONArray("list").getJSONObject(8)
                 val main8 = dayTwo.getJSONObject("main")
                 temp2.value = main8.getDouble("temp")
-                minTemp2.value= main8.getDouble("temp_min")
+                minTemp2.value = main8.getDouble("temp_min")
                 maxTemp2.value = main8.getDouble("temp_max")
                 val toDate8 = dayTwo.getLong("dt")
                 date2.value = SimpleDateFormat(
@@ -258,7 +243,7 @@ class SecondViewModel : ViewModel() {
                 val dayThree = obj.getJSONArray("list").getJSONObject(16)
                 val main16 = dayThree.getJSONObject("main")
                 temp3.value = main16.getDouble("temp")
-                minTemp3.value= main16.getDouble("temp_min")
+                minTemp3.value = main16.getDouble("temp_min")
                 maxTemp3.value = main16.getDouble("temp_max")
                 val toDate16 = dayThree.getLong("dt")
                 date3.value = SimpleDateFormat("EEE", Locale.ENGLISH).format(
@@ -270,7 +255,7 @@ class SecondViewModel : ViewModel() {
                 val dayFour = obj.getJSONArray("list").getJSONObject(24)
                 val main24 = dayFour.getJSONObject("main")
                 temp4.value = main24.getDouble("temp")
-                minTemp4.value= main24.getDouble("temp_min")
+                minTemp4.value = main24.getDouble("temp_min")
                 maxTemp4.value = main24.getDouble("temp_max")
                 val toDate24 = dayFour.getLong("dt")
                 date4.value = SimpleDateFormat("EEE", Locale.ENGLISH).format(
@@ -282,7 +267,7 @@ class SecondViewModel : ViewModel() {
                 val dayFive = obj.getJSONArray("list").getJSONObject(32)
                 val main32 = dayFive.getJSONObject("main")
                 temp5.value = main32.getDouble("temp")
-                minTemp5.value= main32.getDouble("temp_min")
+                minTemp5.value = main32.getDouble("temp_min")
                 maxTemp5.value = main32.getDouble("temp_max")
                 val toDate32 = dayFive.getLong("dt")
                 date5.setValue(
@@ -299,7 +284,7 @@ class SecondViewModel : ViewModel() {
     }
 
 
-    fun fiveDayForecast(unit:String, city: String, queue: RequestQueue) {
+    fun fiveDayForecast(unit: String, city: String, queue: RequestQueue) {
         val urlFiveDayForecast =
             "https://api.openweathermap.org/data/2.5/forecast?q=$city&units=$unit&appid=$API"
 
@@ -310,7 +295,7 @@ class SecondViewModel : ViewModel() {
                 val dayOne = obj.getJSONArray("list").getJSONObject(0)
                 val main0 = dayOne.getJSONObject("main")
                 temp1.value = main0.getDouble("temp")
-                minTemp1.value= main0.getDouble("temp_min")
+                minTemp1.value = main0.getDouble("temp_min")
                 maxTemp1.value = main0.getDouble("temp_max")
                 val toDate0 = dayOne.getLong("dt")
                 date1.value = SimpleDateFormat(
@@ -322,7 +307,7 @@ class SecondViewModel : ViewModel() {
                 val dayTwo = obj.getJSONArray("list").getJSONObject(8)
                 val main8 = dayTwo.getJSONObject("main")
                 temp2.value = main8.getDouble("temp")
-                minTemp2.value= main8.getDouble("temp_min")
+                minTemp2.value = main8.getDouble("temp_min")
                 maxTemp2.value = main8.getDouble("temp_max")
                 val toDate8 = dayTwo.getLong("dt")
                 date2.value = SimpleDateFormat(
@@ -333,7 +318,7 @@ class SecondViewModel : ViewModel() {
                 val dayThree = obj.getJSONArray("list").getJSONObject(16)
                 val main16 = dayThree.getJSONObject("main")
                 temp3.value = main16.getDouble("temp")
-                minTemp3.value= main16.getDouble("temp_min")
+                minTemp3.value = main16.getDouble("temp_min")
                 maxTemp3.value = main16.getDouble("temp_max")
                 val toDate16 = dayThree.getLong("dt")
                 date3.value = SimpleDateFormat("EEE", Locale.ENGLISH).format(
@@ -345,7 +330,7 @@ class SecondViewModel : ViewModel() {
                 val dayFour = obj.getJSONArray("list").getJSONObject(24)
                 val main24 = dayFour.getJSONObject("main")
                 temp4.value = main24.getDouble("temp")
-                minTemp4.value= main24.getDouble("temp_min")
+                minTemp4.value = main24.getDouble("temp_min")
                 maxTemp4.value = main24.getDouble("temp_max")
                 val toDate24 = dayFour.getLong("dt")
                 date4.value = SimpleDateFormat("EEE", Locale.ENGLISH).format(
@@ -357,7 +342,7 @@ class SecondViewModel : ViewModel() {
                 val dayFive = obj.getJSONArray("list").getJSONObject(32)
                 val main32 = dayFive.getJSONObject("main")
                 temp5.value = main32.getDouble("temp")
-                minTemp5.value= main32.getDouble("temp_min")
+                minTemp5.value = main32.getDouble("temp_min")
                 maxTemp5.value = main32.getDouble("temp_max")
                 val toDate32 = dayFive.getLong("dt")
                 date5.setValue(

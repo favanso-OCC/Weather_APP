@@ -25,7 +25,7 @@
     <string name="MinTemp">Min Temperature</string>
     <string name="MaxTemp">Max Temperature</string>
     <string name="WindSpeed">Wind Speed</string>
-    <string name="WindUnit">Wind Unit</string>
+    <string name="WindUnit">m/s</string>
     <string name="_5dayweather">5DayWeather</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="maxtemp">maxTemp</string>
@@ -39,4 +39,5 @@
     <string name="LowestTemp">L:</string>
     <string name="FiveDayForecast">5-Day Forecast:</string>
     <string name="icon">icon</string>
+    <string name="scroll">Scroll below to check 5-Day Forecast</string>
 </resources>
